@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Button, Form, Card, Spinner} from "react-bootstrap";
+import { Button, Form, Card, Spinner } from "react-bootstrap";
 
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -45,9 +45,21 @@ function App() {
     setSelectedSectors(tempSelectedSectors);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    validateData();
+    if (validateData()) {
+      const payload = {
+        name,
+        selectedSectors,
+        isAgreed,
+      };
+      try {
+        const response = await axios.post(URL.save, payload);
+        toast.success(response.data.message);
+      } catch (error) {
+        toast.error(response.data.message);
+      }
+    }
   };
 
   const validateData = () => {
@@ -61,7 +73,6 @@ function App() {
       toast.error("Please agree the terms");
       return false;
     } else {
-      toast.success("Success");
       return true;
     }
   };
