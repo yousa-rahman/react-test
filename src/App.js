@@ -57,7 +57,7 @@ function App() {
         const response = await axios.post(URL.save, payload);
         toast.success(response.data.message);
       } catch (error) {
-        toast.error(response.data.message);
+        toast.error("Something went wrong! Try Again");
       }
     }
   };
